@@ -4,3 +4,6 @@
 *.sdf
 Server/NotServer/Debug/
 Server/NotServer/Release/
+*.suo
+*.ilk
+*.pdb
