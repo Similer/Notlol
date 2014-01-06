@@ -2,3 +2,5 @@
 *.ipch
 *.exe
 *.sdf
+Server/NotServer/Debug/
+Server/NotServer/Release/
