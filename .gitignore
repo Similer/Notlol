@@ -7,3 +7,4 @@ Server/NotServer/Release/
 *.suo
 *.ilk
 *.pdb
+*.opensdf
