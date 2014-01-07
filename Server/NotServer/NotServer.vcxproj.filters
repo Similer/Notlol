@@ -10,4 +10,21 @@
       <Filter>NewFilter1</Filter>
     </ClCompile>
   </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="ticpp.h">
+      <Filter>NewFilter1</Filter>
+    </ClInclude>
+    <ClInclude Include="ticppapi.h">
+      <Filter>NewFilter1</Filter>
+    </ClInclude>
+    <ClInclude Include="ticpprc.h">
+      <Filter>NewFilter1</Filter>
+    </ClInclude>
+    <ClInclude Include="tinystr.h">
+      <Filter>NewFilter1</Filter>
+    </ClInclude>
+    <ClInclude Include="tinyxml.h">
+      <Filter>NewFilter1</Filter>
+    </ClInclude>
+  </ItemGroup>
 </Project>
