@@ -1,0 +1,28 @@
+﻿빌드 시작: 2014-01-08 오전 1:36:44
+     1>2 노드의 "E:\Library\Source\Notlol\Tools\ticpp\TiCPP.vcxproj" 프로젝트(build 대상)입니다.
+     1>InitializeBuildStatus:
+         "AlwaysCreate"이(가) 지정되었기 때문에 "obj\Debug\TiCPP.unsuccessfulbuild"을(를) 만들고 있습니다.
+       ClCompile:
+         모든 출력이 최신 상태입니다.
+         c:\Program Files (x86)\Microsoft Visual Studio 10.0\VC\bin\CL.exe /c /ZI /nologo /W4 /WX- /Od /Oy- /D TIXML_USE_TICPP /D WIN32 /D _WINDOWS /D _CRT_SECURE_NO_DEPRECATE /D DEBUG /D _DEBUG /D _UNICODE /D UNICODE /Gm- /EHsc /RTCc /RTC1 /MDd /GS /Gy /fp:precise /Zc:wchar_t /Zc:forScope /Fo"obj\Debug\\" /Fd"obj\Debug\vc100.pdb" /Gd /TP /analyze- /errorReport:prompt ticpp.cpp tinystr.cpp tinyxml.cpp tinyxmlerror.cpp tinyxmlparser.cpp /MP 
+         ticpp.cpp
+         tinystr.cpp
+         tinyxml.cpp
+         tinyxmlerror.cpp
+     1>e:\library\source\notlol\tools\ticpp\tinystr.cpp : warning C4819: 현재 코드 페이지(949)에서 표시할 수 없는 문자가 파일에 들어 있습니다. 데이터가 손실되지 않게 하려면 해당 파일을 유니코드 형식으로 저장하십시오.
+         tinyxmlparser.cpp
+       Lib:
+         c:\Program Files (x86)\Microsoft Visual Studio 10.0\VC\bin\Lib.exe /OUT:"lib\ticppd.lib" /NOLOGO obj\Debug\ticpp.obj
+         obj\Debug\tinystr.obj
+         obj\Debug\tinyxml.obj
+         obj\Debug\tinyxmlerror.obj
+         obj\Debug\tinyxmlparser.obj
+         TiCPP.vcxproj -> E:\Library\Source\Notlol\Tools\ticpp\lib\ticppd.lib
+       FinalizeBuildStatus:
+         "obj\Debug\TiCPP.unsuccessfulbuild" 파일을 삭제하고 있습니다.
+         "obj\Debug\TiCPP.lastbuildstate"에 연결(touching)하고 있습니다.
+     1>"E:\Library\Source\Notlol\Tools\ticpp\TiCPP.vcxproj" 프로젝트를 빌드했습니다(build 대상).
+
+빌드했습니다.
+
+경과 시간: 00:00:01.83

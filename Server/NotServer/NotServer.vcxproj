@@ -58,6 +58,7 @@
     <Link>
       <SubSystem>Console</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
+      <AdditionalDependencies>ticppd.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
@@ -79,6 +80,13 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="NotServer.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="ticpp.h" />
+    <ClInclude Include="ticppapi.h" />
+    <ClInclude Include="ticpprc.h" />
+    <ClInclude Include="tinystr.h" />
+    <ClInclude Include="tinyxml.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

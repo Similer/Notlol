@@ -2,9 +2,10 @@
 *.ipch
 *.exe
 *.sdf
-Server/NotServer/Debug/
-Server/NotServer/Release/
 *.suo
 *.ilk
 *.pdb
 *.opensdf
+*.tlog
+**/Debug/
+**/Release/
