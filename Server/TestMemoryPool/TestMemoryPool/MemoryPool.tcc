@@ -28,9 +28,9 @@
 template <typename T, size_t BlockSize>
 inline typename MemoryPool<T, BlockSize>::size_type
 MemoryPool<T, BlockSize>::padPointer(data_pointer_ p, size_type align)
-const noexcept
+const throw()
 {
-  uintptr_t result = reinterpret_cast<uintptr_t>(p);
+  size_t result = reinterpret_cast<size_t>(p);
   return ((align - result) % align);
 }
 
@@ -38,68 +38,41 @@ const noexcept
 
 template <typename T, size_t BlockSize>
 MemoryPool<T, BlockSize>::MemoryPool()
-noexcept
+throw()
 {
-  currentBlock_ = nullptr;
-  currentSlot_ = nullptr;
-  lastSlot_ = nullptr;
-  freeSlots_ = nullptr;
+  currentBlock_ = 0;
+  currentSlot_ = 0;
+  lastSlot_ = 0;
+  freeSlots_ = 0;
 }
 
 
 
 template <typename T, size_t BlockSize>
 MemoryPool<T, BlockSize>::MemoryPool(const MemoryPool& memoryPool)
-noexcept :
-MemoryPool()
-{}
-
-
-
-template <typename T, size_t BlockSize>
-MemoryPool<T, BlockSize>::MemoryPool(MemoryPool&& memoryPool)
-noexcept
+throw()
 {
-  currentBlock_ = memoryPool.currentBlock_;
-  memoryPool.currentBlock_ = nullptr;
-  currentSlot_ = memoryPool.currentSlot_;
-  lastSlot_ = memoryPool.lastSlot_;
-  freeSlots_ = memoryPool.freeSlots;
+  MemoryPool();
 }
+
 
 
 template <typename T, size_t BlockSize>
 template<class U>
 MemoryPool<T, BlockSize>::MemoryPool(const MemoryPool<U>& memoryPool)
-noexcept :
-MemoryPool()
-{}
-
-
-
-template <typename T, size_t BlockSize>
-MemoryPool<T, BlockSize>&
-MemoryPool<T, BlockSize>::operator=(MemoryPool&& memoryPool)
-noexcept
+throw()
 {
-  if (this != &memoryPool)
-  {
-    std::swap(currentBlock_, memoryPool.currentBlock_);
-    currentSlot_ = memoryPool.currentSlot_;
-    lastSlot_ = memoryPool.lastSlot_;
-    freeSlots_ = memoryPool.freeSlots;
-  }
-  return *this;
+  MemoryPool();
 }
 
 
 
 template <typename T, size_t BlockSize>
 MemoryPool<T, BlockSize>::~MemoryPool()
-noexcept
+throw()
 {
   slot_pointer_ curr = currentBlock_;
-  while (curr != nullptr) {
+  while (curr != 0) {
     slot_pointer_ prev = curr->next;
     operator delete(reinterpret_cast<void*>(curr));
     curr = prev;
@@ -111,7 +84,7 @@ noexcept
 template <typename T, size_t BlockSize>
 inline typename MemoryPool<T, BlockSize>::pointer
 MemoryPool<T, BlockSize>::address(reference x)
-const noexcept
+const throw()
 {
   return &x;
 }
@@ -121,7 +94,7 @@ const noexcept
 template <typename T, size_t BlockSize>
 inline typename MemoryPool<T, BlockSize>::const_pointer
 MemoryPool<T, BlockSize>::address(const_reference x)
-const noexcept
+const throw()
 {
   return &x;
 }
@@ -139,7 +112,7 @@ MemoryPool<T, BlockSize>::allocateBlock()
   currentBlock_ = reinterpret_cast<slot_pointer_>(newBlock);
   // Pad block body to staisfy the alignment requirements for elements
   data_pointer_ body = newBlock + sizeof(slot_pointer_);
-  size_type bodyPadding = padPointer(body, alignof(slot_type_));
+  size_type bodyPadding = padPointer(body, sizeof(slot_type_));
   currentSlot_ = reinterpret_cast<slot_pointer_>(body + bodyPadding);
   lastSlot_ = reinterpret_cast<slot_pointer_>
               (newBlock + BlockSize - sizeof(slot_type_) + 1);
@@ -149,9 +122,9 @@ MemoryPool<T, BlockSize>::allocateBlock()
 
 template <typename T, size_t BlockSize>
 inline typename MemoryPool<T, BlockSize>::pointer
-MemoryPool<T, BlockSize>::allocate(size_type n, const_pointer hint)
+MemoryPool<T, BlockSize>::allocate(size_type, const_pointer)
 {
-  if (freeSlots_ != nullptr) {
+  if (freeSlots_ != 0) {
     pointer result = reinterpret_cast<pointer>(freeSlots_);
     freeSlots_ = freeSlots_->next;
     return result;
@@ -167,9 +140,9 @@ MemoryPool<T, BlockSize>::allocate(size_type n, const_pointer hint)
 
 template <typename T, size_t BlockSize>
 inline void
-MemoryPool<T, BlockSize>::deallocate(pointer p, size_type n)
+MemoryPool<T, BlockSize>::deallocate(pointer p, size_type)
 {
-  if (p != nullptr) {
+  if (p != 0) {
     reinterpret_cast<slot_pointer_>(p)->next = freeSlots_;
     freeSlots_ = reinterpret_cast<slot_pointer_>(p);
   }
@@ -180,7 +153,7 @@ MemoryPool<T, BlockSize>::deallocate(pointer p, size_type n)
 template <typename T, size_t BlockSize>
 inline typename MemoryPool<T, BlockSize>::size_type
 MemoryPool<T, BlockSize>::max_size()
-const noexcept
+const throw()
 {
   size_type maxBlocks = -1 / BlockSize;
   return (BlockSize - sizeof(data_pointer_)) / sizeof(slot_type_) * maxBlocks;
@@ -189,32 +162,29 @@ const noexcept
 
 
 template <typename T, size_t BlockSize>
-template <class U, class... Args>
 inline void
-MemoryPool<T, BlockSize>::construct(U* p, Args&&... args)
+MemoryPool<T, BlockSize>::construct(pointer p, const_reference val)
 {
-  new (p) U (std::forward<Args>(args)...);
+  new (p) value_type (val);
 }
 
 
 
 template <typename T, size_t BlockSize>
-template <class U>
 inline void
-MemoryPool<T, BlockSize>::destroy(U* p)
+MemoryPool<T, BlockSize>::destroy(pointer p)
 {
-  p->~U();
+  p->~value_type();
 }
 
 
 
 template <typename T, size_t BlockSize>
-template <class... Args>
 inline typename MemoryPool<T, BlockSize>::pointer
-MemoryPool<T, BlockSize>::newElement(Args&&... args)
+MemoryPool<T, BlockSize>::newElement(const_reference val)
 {
   pointer result = allocate();
-  construct<value_type>(result, std::forward<Args>(args)...);
+  construct(result, val);
   return result;
 }
 
@@ -224,7 +194,7 @@ template <typename T, size_t BlockSize>
 inline void
 MemoryPool<T, BlockSize>::deleteElement(pointer p)
 {
-  if (p != nullptr) {
+  if (p != 0) {
     p->~value_type();
     deallocate(p);
   }

@@ -15,21 +15,19 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <None Include="MemoryPool.tcc">
-      <Filter>소스 파일</Filter>
-    </None>
-  </ItemGroup>
-  <ItemGroup>
-    <ClInclude Include="StackAlloc.h">
-      <Filter>소스 파일</Filter>
-    </ClInclude>
-    <ClInclude Include="MemoryPool.h">
-      <Filter>소스 파일</Filter>
-    </ClInclude>
-  </ItemGroup>
-  <ItemGroup>
-    <ClCompile Include="test.cpp">
+    <ClCompile Include="main.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
+    <ClCompile Include="MemoryPool.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="allocator.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="MemoryPool.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>
