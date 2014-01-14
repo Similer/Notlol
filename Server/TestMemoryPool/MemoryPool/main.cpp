@@ -1,6 +1,6 @@
 #include <iostream>
 #include "allocator.h"
-
+#include "MemoryPool.h"
 #include <vector>
 
 
@@ -19,25 +19,17 @@ void operator delete(void* p)   // 어떤 형이 올지 모르니 void* 형
 	free(p);
 }
 
+using namespace Nl;
+
 int main()
 {
-	std::vector<int, Nl::allocator<int>> vec;
+	GMemoryPool = new MemoryPool;
 
-	vec.push_back(1);
-	cout << vec.capacity() << endl;
-	vec.push_back(1);
-	cout << vec.capacity() << endl;
-	vec.push_back(1);
-	cout << vec.capacity() << endl;
-	vec.push_back(1);
-	cout << vec.capacity() << endl;
-	vec.push_back(1);
-	cout << vec.capacity() << endl;
-	vec.push_back(1);
-	cout << vec.capacity() << endl;
-	vec.push_back(1);
-	cout << vec.capacity() << endl;
+	GMemoryPool->Initialize();
 
+	GMemoryPool->Terminate();
+
+	delete GMemoryPool;
 
 	return 0;
 }
